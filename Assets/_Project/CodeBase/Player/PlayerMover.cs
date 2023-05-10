@@ -1,3 +1,4 @@
+using CodeBase.CameraLog;
 using CodeBase.Infrastructure;
 using CodeBase.Services.Input;
 using UnityEngine;
@@ -20,6 +21,8 @@ namespace CodeBase.Player
         private void Start()
         {
             _camera = Camera.main;
+            Follower follower = _camera.GetComponent<Follower>();
+            follower.Follow(gameObject);
         }
         
         private void Update()
