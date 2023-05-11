@@ -1,4 +1,3 @@
-using CodeBase.CameraLog;
 using CodeBase.Infrastructure;
 using CodeBase.Services.Input;
 using UnityEngine;
@@ -18,20 +17,13 @@ namespace CodeBase.Player
             _inputService = Game.InputService;
         }
 
-        private void Start()
-        {
-            _camera = Camera.main;
-            Follower follower = _camera.GetComponent<Follower>();
-            follower.Follow(gameObject);
-        }
-        
         private void Update()
         {
             Vector3 movementVector = Vector3.zero;
 
             if(_inputService.Axis.sqrMagnitude > Constants.Epsilon)
             {
-                movementVector = _camera.transform.TransformDirection(_inputService.Axis);
+                movementVector = Camera.main.transform.TransformDirection(_inputService.Axis);
                 movementVector.y = 0;
                 movementVector.Normalize();
 
