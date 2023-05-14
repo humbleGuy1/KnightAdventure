@@ -14,11 +14,13 @@ namespace CodeBase.Infrastructure.States
 
         private const string InitialPointTag = "PlayerInitialPoint";
 
-        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingScreen loadingScreen)
+        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingScreen loadingScreen, 
+            IGameFactory gameFactory)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
             _loadingScreen = loadingScreen;
+            _gameFactory = gameFactory;
         }
 
         public void Enter(string sceneName)
