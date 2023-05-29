@@ -16,7 +16,5 @@ namespace CodeBase.Services.Input
                 return axis;
             }
         }
-
-        
     }
 }

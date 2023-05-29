@@ -4,6 +4,7 @@
     {
         public void Enter();
     }
+
     public interface IPayLoadedState<TPayLoad> : IExitableState
     {
         public void Enter(TPayLoad payLoad);
