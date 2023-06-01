@@ -19,8 +19,8 @@ namespace CodeBase.Enemy
                 _enemyAnimator.StopMoving();
         }
 
-        private bool ShouldMove() => 
-            _navMeshAgent.velocity.magnitude > Constants.MinimalVelocity && 
+        private bool ShouldMove() =>
+            _navMeshAgent.velocity.magnitude > Constants.MinimalVelocity &&
             _navMeshAgent.remainingDistance > _navMeshAgent.radius;
     }
 }
