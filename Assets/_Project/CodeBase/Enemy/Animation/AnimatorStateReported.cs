@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace CodeBase.Enemy
+namespace CodeBase.Enemy.Animation
 {
     public class AnimatorStateReported : StateMachineBehaviour
     {

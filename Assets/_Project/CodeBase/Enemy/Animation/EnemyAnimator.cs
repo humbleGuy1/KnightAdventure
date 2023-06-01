@@ -1,7 +1,8 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace CodeBase.Enemy
+namespace CodeBase.Enemy.Animation
 {
     public class EnemyAnimator : MonoBehaviour, IAnimationStateReader
     {
@@ -9,14 +10,22 @@ namespace CodeBase.Enemy
 
         private static readonly int AttackHash = Animator.StringToHash("Attack_1");
         private static readonly int SpeedHash = Animator.StringToHash("Speed");
-        private static readonly int IsMovingHash = Animator.StringToHash("IsMoving");
+        private static readonly int IsMovingHash = Animator.StringToHash("isMoving");
         private static readonly int HitHash = Animator.StringToHash("Hit");
         private static readonly int DieHash = Animator.StringToHash("Die");
 
-        private readonly int _idleStateHash = Animator.StringToHash("idle");
-        private readonly int _attackStateHash = Animator.StringToHash("attack01");
-        private readonly int _walkingStateHash = Animator.StringToHash("MoveBlendTree");
-        private readonly int _deathStateHash = Animator.StringToHash("die");
+        private static readonly int _idleStateHash = Animator.StringToHash("idle");
+        private static readonly int _attackStateHash = Animator.StringToHash("attack01");
+        private static readonly int _walkingStateHash = Animator.StringToHash("MoveBlendTree");
+        private static readonly int _deathStateHash = Animator.StringToHash("die");
+
+        private readonly Dictionary<int, AnimatorState> _hashStateDictionary = new()
+        {
+            [_idleStateHash] = AnimatorState.Idle,
+            [_attackStateHash] = AnimatorState.Attack,
+            [_walkingStateHash] = AnimatorState.Walking,
+            [_deathStateHash] = AnimatorState.Died,
+        };
 
         public event Action<AnimatorState> StateEntered;
         public event Action<AnimatorState> StateExited;
@@ -43,25 +52,10 @@ namespace CodeBase.Enemy
             StateEntered?.Invoke(State);
         }
 
-        public void ExitedState(int stateHash) =>
-          StateExited?.Invoke(StateFor(stateHash));
+        public void ExitedState(int stateHash) => StateExited?.Invoke(StateFor(stateHash));
 
-        private AnimatorState StateFor(int stateHash)
-        {
-            AnimatorState state;
-            if (stateHash == _idleStateHash)
-                state = AnimatorState.Idle;
-            else if (stateHash == _attackStateHash)
-                state = AnimatorState.Attack;
-            else if (stateHash == _walkingStateHash)
-                state = AnimatorState.Walking;
-            else if (stateHash == _deathStateHash)
-                state = AnimatorState.Died;
-            else
-                state = AnimatorState.Unknown;
 
-            return state;
-        }
+        private AnimatorState StateFor(int stateHash) => _hashStateDictionary[stateHash];
     }
 }
 

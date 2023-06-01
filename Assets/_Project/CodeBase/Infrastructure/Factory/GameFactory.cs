@@ -9,13 +9,21 @@ namespace CodeBase.Infrastructure.Factory
     public class GameFactory : IGameFactory
     {
         private readonly IAssetProvider _assetProvider;
+
         public List<ISavedProgressReader> ProgressReaders { get; private set; } = new List<ISavedProgressReader>();
         public List<ISavedProgress> ProgressWriters { get; private set; } = new List<ISavedProgress>();
+        public GameObject PlayerGameObject { get; private set; }
+
+        public event Action PlayerCreated;
 
         public GameFactory(IAssetProvider assetProvider) => _assetProvider = assetProvider;
 
-        public GameObject CreatePlayer(GameObject initialPoint) => 
-            InstantiateRegistered(AssetPath.PlayerPath, initialPoint.transform.position);
+        public GameObject CreatePlayer(GameObject initialPoint)
+        {
+            PlayerGameObject = InstantiateRegistered(AssetPath.PlayerPath, initialPoint.transform.position);
+            PlayerCreated?.Invoke();
+            return PlayerGameObject;
+        }
 
         public void CreateHud() => InstantiateRegistered(AssetPath.HudPath);
 

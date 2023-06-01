@@ -1,4 +1,4 @@
-﻿namespace CodeBase.Enemy
+﻿namespace CodeBase.Enemy.Animation
 {
     public enum AnimatorState
     {
