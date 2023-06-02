@@ -1,11 +1,16 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace CodeBase.Enemy
 {
     public class Agro : MonoBehaviour
     {
+        [SerializeField] private float _cooldown;
+        [Space]
         [SerializeField] private TriggerObserver _triggerObserver;
         [SerializeField] private AgentMoverToPlayer _follower;
+
+        private Coroutine _agrCoroutine;
 
         private void OnEnable()
         {
@@ -14,7 +19,7 @@ namespace CodeBase.Enemy
         }
 
         private void Start() => 
-            _follower.enabled = false;
+            SwitchFollowOff();
 
         private void OnDisable()
         {
@@ -22,11 +27,36 @@ namespace CodeBase.Enemy
             _triggerObserver.TriggerExit -= Exit;
         }
 
-        private void Exit(Collider obj) => 
+        private void Exit(Collider collider)
+        {
+            _agrCoroutine = StartCoroutine(SwitchFollowOffAfter(_cooldown));
+        }
+
+        private void Enter(Collider collider)
+        {
+            if(_agrCoroutine != null)
+            {
+                StopCoroutine(_agrCoroutine);
+                _agrCoroutine = null;
+            }
+
+            SwitchFollowOn();
+        }
+
+        private void SwitchFollowOff() => 
             _follower.enabled = false;
 
-        private void Enter(Collider obj) => 
+        private void SwitchFollowOn() => 
             _follower.enabled = true;
+
+        private IEnumerator SwitchFollowOffAfter(float cooldown)
+        {
+            WaitForSeconds waitForSeconds = new(cooldown);
+
+            yield return waitForSeconds;
+
+            SwitchFollowOff();
+        }
     }
 }
 

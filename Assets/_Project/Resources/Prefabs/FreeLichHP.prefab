@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6f03a4ea9fbf1d4db91ebd31ec28cdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cooldown: 3
   _triggerObserver: {fileID: 4425898528448449067}
   _follower: {fileID: 1496419730190176836}
 --- !u!1 &3363206003675530512
